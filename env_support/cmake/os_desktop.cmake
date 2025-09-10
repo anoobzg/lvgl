@@ -16,7 +16,7 @@ option(LV_BUILD_SET_CONFIG_OPTS
     "Create variables from the definitions in lv_conf_internal.h"  OFF)
 
 option(LV_BUILD_LVGL_H_SIMPLE_INCLUDE
-    "Disable if the lvgl directory is located at the top-level of your project" ON)
+    "Disable if the lvgl directory is located at the top-level of your project" OFF)
 
 option(LV_BUILD_LVGL_H_SYSTEM_INCLUDE
     "Enable if LVGL will be installed on the system or the build system of your application uses a sysroot" OFF)
@@ -83,7 +83,7 @@ if (NOT LV_BUILD_USE_KCONFIG)
         message(STATUS "Using configuration: ${CONF_PATH}")
 
         if (NOT IS_ABSOLUTE ${CONF_PATH})
-            file(REAL_PATH ${CONF_PATH} CONF_PATH BASE_DIRECTORY ${CMAKE_SOURCE_DIR})
+            file(REAL_PATH ${CONF_PATH} CONF_PATH BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
             message(STATUS "Converted to absolute path: ${CONF_PATH}")
         endif()
 
@@ -101,7 +101,7 @@ if (NOT LV_BUILD_USE_KCONFIG)
 
         # Avoid compilation errors due to the relative path of the include directory
         if (NOT IS_ABSOLUTE ${CONF_INC_DIR})
-            file(REAL_PATH ${CONF_INC_DIR} CONF_INC_DIR BASE_DIRECTORY ${CMAKE_SOURCE_DIR})
+            file(REAL_PATH ${CONF_INC_DIR} CONF_INC_DIR BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
             message(STATUS "Converted to absolute path: ${CONF_INC_DIR}")
         endif()
 
@@ -113,9 +113,9 @@ if (NOT LV_BUILD_USE_KCONFIG)
 
         message(STATUS "Using lv_conf.h from the top-level project directory")
 
-        list(APPEND LVGL_PUBLIC_HEADERS ${CMAKE_SOURCE_DIR}/lv_conf.h)
+        list(APPEND LVGL_PUBLIC_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/lv_conf.h)
 
-        set(CONF_INC_DIR ${CMAKE_SOURCE_DIR})
+        set(CONF_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
         set(CONF_PATH ${CONF_INC_DIR}/lv_conf.h)
 
         target_compile_definitions(lvgl PUBLIC LV_CONF_INCLUDE_SIMPLE)
@@ -164,7 +164,7 @@ if (LV_BUILD_SET_CONFIG_OPTS)
         --output ${CMAKE_CURRENT_BINARY_DIR}/lv_conf_expanded.h
         --workfolder ${CMAKE_CURRENT_BINARY_DIR}
         --defs ${CONF_DEFINES}
-        --include ${LVGL_ROOT_DIR} ${CMAKE_SOURCE_DIR} ${LVGL_ROOT_DIR}/src ${CONF_INC_DIR}
+        --include ${LVGL_ROOT_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${LVGL_ROOT_DIR}/src ${CONF_INC_DIR}
         RESULT_VARIABLE ret
     )
     if(NOT "${ret}" STREQUAL "0")
