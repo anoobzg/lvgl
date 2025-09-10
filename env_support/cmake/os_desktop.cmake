@@ -16,7 +16,7 @@ option(LV_BUILD_SET_CONFIG_OPTS
     "Create variables from the definitions in lv_conf_internal.h"  OFF)
 
 option(LV_BUILD_LVGL_H_SIMPLE_INCLUDE
-    "Disable if the lvgl directory is located at the top-level of your project" OFF)
+    "Disable if the lvgl directory is located at the top-level of your project" ON)
 
 option(LV_BUILD_LVGL_H_SYSTEM_INCLUDE
     "Enable if LVGL will be installed on the system or the build system of your application uses a sysroot" OFF)
